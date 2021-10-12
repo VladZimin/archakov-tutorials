@@ -1,0 +1,7 @@
+.profileBlock {
+    float: left;
+    margin: 20px;
+    padding: 5px;
+    border: #a19f9f 4px solid;
+    border-radius: 10px;
+}

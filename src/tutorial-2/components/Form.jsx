@@ -10,7 +10,7 @@ let Form = () => {
     }
     let handleSubmit = (event) => {
         event.preventDefault()
-        if (email === '' || password === '') {
+        if (!email || !password) {
             alert('Пожалуйста, заполните все поля!')
         } else {
             console.log({email, password})

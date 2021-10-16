@@ -1,9 +1,11 @@
-import Form from "./components/Form";
+import Form from './components/Form'
 
 let App = () => {
-    return <div>
-        <Form/>
+  return (
+    <div>
+      <Form />
     </div>
+  )
 }
 
 export default App

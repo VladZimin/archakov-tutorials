@@ -1,0 +1,22 @@
+.to-do-list {
+    margin: auto;
+    text-align: center;
+    width: 300px;
+}
+.add-task-btn {
+    text-align: center;
+    display: inline-block;
+    width: 15px;
+    border: 2px solid black;
+    float: right;
+}
+.tasks-items{
+    text-align: left;
+}
+.task-item {
+    text-align: center;
+    display: inline-block;
+    width: 15px;
+    border: 2px solid black;
+    margin-left: 40px;
+}

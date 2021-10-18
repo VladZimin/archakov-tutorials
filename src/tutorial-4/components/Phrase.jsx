@@ -1,6 +1,6 @@
 import React from 'react'
 
-let Phrase = ({ phrasesArray }) => {
+const Phrase = ({ phrasesArray }) => {
   return (
     <div className="list">
       {phrasesArray.map((phrase, index) => (

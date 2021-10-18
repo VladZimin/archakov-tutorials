@@ -3,7 +3,7 @@ import './App.css'
 import EmptyBlock from './components/EmptyBlock'
 import Phrase from './components/Phrase'
 
-let App = () => {
+const App = () => {
   let [phrasesArr, setPhrase] = React.useState([])
 
   const adjectivesArr = [

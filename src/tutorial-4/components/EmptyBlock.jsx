@@ -1,5 +1,6 @@
 import '../App.css'
-let EmptyBlock = () => {
+
+const EmptyBlock = () => {
   return (
     <div className="block empty-block">
       <img

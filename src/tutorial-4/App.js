@@ -67,7 +67,7 @@ const App = () => {
   return (
     <div className="wrapper">
       {phrasesArr.length ? (
-        <Phrase phrasesArray={phrasesArr} />
+        phrasesArr.map((elem, i) => <Phrase key={i} phrase={elem} />)
       ) : (
         <EmptyBlock />
       )}

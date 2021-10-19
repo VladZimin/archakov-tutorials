@@ -13,6 +13,9 @@ const FeedBackBlock = () => {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
     }),
     text: '',
   }
@@ -24,44 +27,30 @@ const FeedBackBlock = () => {
 
   React.useEffect(() => {
     let localStorageArr = JSON.parse(localStorage.getItem('comments'))
-    if (localStorageArr.length) {
-      setComments([localStorageArr])
-    } else {
-      setComments([])
-    }
+    setComments(localStorageArr || [])
   }, [])
 
   let handleChangeInputs = (event) => {
     const { value, name } = event.target
-    switch (name) {
-      case 'fullName':
-        commentsObj.fullName = value.trim()
-        break
-      case 'email':
-        commentsObj.email = value.trim()
-        break
-      case 'text':
-        commentsObj.text = value.trim()
-        break
-      default:
-        break
-    }
+    commentsObj[name] = value.trim()
   }
+
   let handleRemoveReview = (index) => {
     setComments(comments.filter((_, i) => i !== index))
   }
   let handleSubmit = (event) => {
     event.preventDefault()
     if (commentsObj.fullName && commentsObj.text && commentsObj.email) {
-      setComments((prev) => [...prev, commentsObj])
+      setComments((prev) => [...prev, { ...commentsObj }])
       event.target.reset()
+      commentsObj.fullName = commentsObj.text = commentsObj.email = ''
     } else {
       alert('Заполните все поля!')
     }
   }
   let reviewsList = comments.map((el, i) => (
     <Review
-      key={el.fullName}
+      key={el.createdAt}
       index={i}
       fullName={el.fullName}
       text={el.text}

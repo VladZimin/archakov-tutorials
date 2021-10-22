@@ -1,4 +1,7 @@
-const Article = ({ id }) => {
+import { useParams } from 'react-router-dom'
+
+const Article = () => {
+  const { id } = useParams()
   return (
     <div>
       <h1>Статья №{id}</h1>

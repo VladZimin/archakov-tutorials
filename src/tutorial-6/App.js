@@ -1,4 +1,3 @@
-import { Nav, Navbar, Row, Col, Card } from 'react-bootstrap'
 import Article from './components/Article'
 import About from './components/About'
 import Home from './components/Home'
@@ -7,12 +6,6 @@ import Footer from './components/Footer'
 import { Route, Switch } from 'react-router-dom'
 
 const App = () => {
-  const { pathname } = window.location
-  let postId = ''
-  if (pathname.match(/\d+/)) {
-    postId = pathname.match(/\d+/)[0]
-  }
-  console.log(postId)
   return (
     <div className="App">
       <Header />
@@ -20,8 +13,8 @@ const App = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/post">
-          <Article id={postId} />
+        <Route path="/post/:id">
+          <Article />
         </Route>
         <Route path="/about">
           <About />

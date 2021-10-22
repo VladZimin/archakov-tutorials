@@ -4,20 +4,7 @@ import About from './components/About'
 import Home from './components/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
-
-const Route = ({ path, children, exact }) => {
-  const { pathname } = window.location
-  if (exact) {
-    if (pathname === path) {
-      return children
-    }
-  } else {
-    if (pathname.includes(path)) {
-      return children
-    }
-  }
-  return null
-}
+import { Route, Switch } from 'react-router-dom'
 
 const App = () => {
   const { pathname } = window.location
@@ -29,15 +16,20 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route path="/post">
-        <Article id={postId} />
-      </Route>
-      <Route path="/about">
-        <About />
-      </Route>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/post">
+          <Article id={postId} />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route>
+          <h1 style={{ textAlign: 'center' }}>Данная старница отсутствует!</h1>
+        </Route>
+      </Switch>
       <br />
       <br />
       <Footer />

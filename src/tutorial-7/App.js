@@ -2,16 +2,36 @@ import React from 'react'
 import { Button, TextField } from '@mui/material'
 import './App.css'
 import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 const App = () => {
+  const schema = yup.object({
+    firstName: yup.string().min(2, 'Слишком короткое имя!'),
+    lastName: yup.string().min(2, 'Слишком короткое имя!'),
+    email: yup
+      .string()
+      .email('Неправильная почта')
+      .required('Заполните E-Mail'),
+    password: yup
+      .string()
+      .min(6, 'Пароль должен быть более 6 символов')
+      .max(20, 'Пароль должен быть менее 20 символов'),
+  })
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
 
   const onSubmit = (data) => {
     console.log(data)
+    reset()
+  }
+  const handleClearInputs = () => {
     reset()
   }
 
@@ -23,7 +43,7 @@ const App = () => {
             name="firstName"
             label="Имя"
             className="right"
-            {...register('firstName', { required: 'Это обязательное поле!' })}
+            {...register('firstName')}
             helperText={errors.firstName && errors.firstName.message}
             error={!!errors.firstName}
           />
@@ -31,7 +51,7 @@ const App = () => {
             name="lastName"
             label="Фамилия"
             className="right"
-            {...register('lastName', { required: 'Это обязательное поле!' })}
+            {...register('lastName')}
             helperText={errors.lastName && errors.firstName.message}
             error={!!errors.lastName}
           />
@@ -41,13 +61,7 @@ const App = () => {
             name="email"
             label="E-Mail"
             className="right"
-            {...register('email', {
-              required: 'Это обязательное поле!',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9._%+-]+\.[A-Z]{2,}$/i,
-                message: 'Введите корректный E-Mail',
-              },
-            })}
+            {...register('email')}
             helperText={errors.email && errors.email.message}
             error={!!errors.email}
           />
@@ -56,7 +70,7 @@ const App = () => {
             label="Пароль"
             className="right"
             type="password"
-            {...register('password', { required: 'Это обязательное поле!' })}
+            {...register('password')}
             helperText={errors.password && errors.password.message}
             error={!!errors.password}
           />
@@ -69,7 +83,12 @@ const App = () => {
         >
           Отправить
         </Button>
-        <Button variant="contained" className="button" color="error">
+        <Button
+          onClick={handleClearInputs}
+          variant="contained"
+          className="button"
+          color="error"
+        >
           Очистить
         </Button>
       </form>

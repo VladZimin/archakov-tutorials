@@ -5,10 +5,14 @@ const App = () => {
   const getUsers = async () => {
     try {
       let response = await fetch(
-        'https://61795c43aa7f3400174049f4.mockapi.io/users'
+        'https://61795c43aa7f3400174049f4.mockapi.io/uss'
       )
-      let users = await response.json()
-      setUsers(users)
+      if (response.ok) {
+        let users = await response.json()
+        setUsers(users)
+      } else {
+        throw new Error('Некорректный запрос!')
+      }
     } catch (error) {
       alert(error)
     }

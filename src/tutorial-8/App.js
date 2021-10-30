@@ -1,15 +1,36 @@
 import React from 'react'
+import axios from 'axios'
+import data from 'bootstrap/js/src/dom/data'
+
+const userObj = {
+  fullName: '',
+  email: '',
+}
 
 const App = () => {
   const [users, setUsers] = React.useState([])
+  const [formValues, setFormValues] = React.useState({})
+
+  const handleChangeInputs = (event) => {
+    const { name, value } = event.target
+    userObj[name] = value.trim()
+    setFormValues({ ...userObj })
+    console.log(formValues)
+  }
+  const handleCreateUser = async () => {
+    await axios.post(
+      'https://61795c43aa7f3400174049f4.mockapi.io/users',
+      formValues
+    )
+  }
+
   const getUsers = async () => {
     try {
-      let response = await fetch(
-        'https://61795c43aa7f3400174049f4.mockapi.io/uss'
+      let { data } = await axios.get(
+        'https://61795c43aa7f3400174049f4.mockapi.io/users'
       )
-      if (response.ok) {
-        let users = await response.json()
-        setUsers(users)
+      if (data) {
+        setUsers(data)
       } else {
         throw new Error('Некорректный запрос!')
       }
@@ -21,10 +42,19 @@ const App = () => {
     <div>
       <ul>
         {users.map((obj) => (
-          <li key={obj.id}>{obj.name}</li>
+          <li key={obj.id}>{obj.fullName}</li>
         ))}
       </ul>
       <button onClick={getUsers}>Сгенерировать пользователей</button>
+
+      <br />
+      <hr />
+      <br />
+
+      <h4>Создать пользователя</h4>
+      <input onChange={handleChangeInputs} name="fullName" type="text" />
+      <input onChange={handleChangeInputs} name="email" type="text" />
+      <button onClick={handleCreateUser}>Отправить</button>
     </div>
   )
 }

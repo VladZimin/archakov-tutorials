@@ -1,6 +1,5 @@
 import React from 'react'
 import axios from 'axios'
-import data from 'bootstrap/js/src/dom/data'
 
 const userObj = {
   fullName: '',
@@ -10,7 +9,8 @@ const userObj = {
 const App = () => {
   const [users, setUsers] = React.useState([])
   const [formValues, setFormValues] = React.useState({})
-
+  const inputRef = React.useRef()
+  console.log(inputRef)
   const handleChangeInputs = (event) => {
     const { name, value } = event.target
     userObj[name] = value.trim()
@@ -23,7 +23,17 @@ const App = () => {
       formValues
     )
   }
-
+  const uploadFile = () => {
+    const file = inputRef.current.files[0]
+    console.log(file)
+    const formData = new FormData()
+    formData.append('file', file)
+    axios.post('http://localhost:9999', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  }
   const getUsers = async () => {
     try {
       let { data } = await axios.get(
@@ -40,21 +50,31 @@ const App = () => {
   }
   return (
     <div>
-      <ul>
-        {users.map((obj) => (
-          <li key={obj.id}>{obj.fullName}</li>
-        ))}
-      </ul>
-      <button onClick={getUsers}>Сгенерировать пользователей</button>
-
+      <div>
+        <ul>
+          {users.map((obj) => (
+            <li key={obj.id}>{obj.fullName}</li>
+          ))}
+        </ul>
+        <button onClick={getUsers}>Сгенерировать пользователей</button>
+      </div>
       <br />
       <hr />
       <br />
-
-      <h4>Создать пользователя</h4>
-      <input onChange={handleChangeInputs} name="fullName" type="text" />
-      <input onChange={handleChangeInputs} name="email" type="text" />
-      <button onClick={handleCreateUser}>Отправить</button>
+      <div>
+        <h4>Создать пользователя</h4>
+        <input onChange={handleChangeInputs} name="fullName" type="text" />
+        <input onChange={handleChangeInputs} name="email" type="text" />
+        <button onClick={handleCreateUser}>Отправить</button>
+      </div>
+      <br />
+      <hr />
+      <br />
+      <div>
+        <h4>Загрузить файл</h4>
+        <input ref={inputRef} type="file" />
+        <button onClick={uploadFile}>Загрузить</button>
+      </div>
     </div>
   )
 }
